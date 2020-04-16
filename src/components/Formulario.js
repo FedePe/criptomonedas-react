@@ -27,6 +27,7 @@ const Formulario = () => {
 
     // state del listado de criptomonedas
     const [listacripto, guardarCriptomonedas] = useState([]);
+    const [ error, guardarError ] = useState(false);
 
     const MONEDAS = [
         {codigo: 'UYU', nombre: 'Peso Uruguayo' },
@@ -53,8 +54,25 @@ const Formulario = () => {
         consultarAPI();
     },[]);
 
+    // cuando el usuario hace submit
+    const cotizarMoneda = e => {
+        e.preventDefault();
+        
+        // Validar si ambos campos estan llenos
+        if(moneda=== '' || criptomoneda=== ''){
+            guardarError(true);
+            return;
+        }
+
+        // pasar los datos al componente principal
+        guardarError(false);
+    }
+
     return ( 
-        <form>
+        <form
+            onSubmit={cotizarMoneda}
+        >
+            {error ? 'Hay un error': null}
             <SelectMonedas />
             <SelectCripto />
             <Boton
